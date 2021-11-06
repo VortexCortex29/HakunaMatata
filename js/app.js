@@ -307,3 +307,20 @@ function signOut(){
         })
     });
 }
+
+// xxxxxxxxxx Firebase Database debugging xxxxxxxxxx
+document.addEventListener("keydown", function(event) {
+    event.preventDefault();
+    if (event.which == 81)
+        doFirebaseStuff();
+})
+
+function doFirebaseStuff() {
+    var db = firebase.database();
+    var ref = db.ref("hackunamatata-502e6-default-rtdb");
+    ref.child("andrei").set("e prost");
+    console.log("penis");
+    // ref.child("uid1").child("keys").child("1").child("key").on('value', (dataSnapShot) => {
+        // console.log(dataSnapShot.val);
+    // })
+}
