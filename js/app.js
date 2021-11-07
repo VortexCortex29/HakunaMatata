@@ -1,3 +1,4 @@
+var secretDiscret;
 // xxxxxxxxxx Working For Sign Up Form xxxxxxxxxx
 // xxxxxxxxxx Full Name Validation xxxxxxxxxx
 function checkUserFullName() {
@@ -96,19 +97,9 @@ function signUp() {
             if (user != null) {
                 uid = user.uid;
             }
-            var firebaseRef = firebase.database().ref();
-            var userData = {
-                userFullName: userFullName,
-                userSurname: userSurname,
-                userEmail: userEmail,
-                userPassword: userPassword,
-                userFb: "https://www.facebook.com/",
-                userTw: "https://twitter.com/",
-                userGp: "https://plus.google.com/",
-                userBio: "User biography",
-            }
-            firebaseRef.child(uid).set(userData);
-            swal('Your Account Created', 'Your account was created successfully, you can log in now.', ).then((value) => {
+            var secret = genPassword2();
+            var string = 'Your account was created successfully, you can log in now.\nThis is your unique key that will be used to encrypt all your data. It is irreplaceble.\n' + secret;
+            swal('Your Account Created', string, ).then((value) => {
                 setTimeout(function() {
                     window.location.replace("../index.html");
                 }, 1000)
@@ -119,8 +110,8 @@ function signUp() {
             var errorMessage = error.message;
             swal({
                 type: 'error',
-                title: 'Error',
-                text: "Error",
+                title: errorCode,
+                text: errorMessage,
             })
         });
     }
@@ -174,6 +165,7 @@ function signIn() {
         return checkUserSIPassword();
     } else {
         firebase.auth().signInWithEmailAndPassword(userSIEmail, userSIPassword).then((success) => {
+
             swal({
                 type: 'successfull',
                 title: 'Succesfully signed in',
@@ -205,16 +197,6 @@ firebase.auth().onAuthStateChanged((user) => {
             uid = user.uid;
         }
         let firebaseRefKey = firebase.database().ref().child(uid);
-        // firebaseRefKey.on('value', (dataSnapShot) => {
-        //     document.getElementById("userPfFullName").innerHTML = dataSnapShot.val().userFullName;
-        //     document.getElementById("userPfSurname").innerHTML = dataSnapShot.val().userSurname;
-        //     // userEmail = dataSnapShot.val().userEmail;
-        //     // userPassword = dataSnapShot.val().userPassword;
-        //     document.getElementById("userPfFb").setAttribute('href', dataSnapShot.val().userFb);
-        //     document.getElementById("userPfTw").setAttribute('href', dataSnapShot.val().userTw);
-        //     document.getElementById("userPfGp").setAttribute('href', dataSnapShot.val().userGp);
-        //     document.getElementById("userPfBio").innerHTML = dataSnapShot.val().userBio;
-        // })
     } else {
         //   No user is signed in.
     }
@@ -308,6 +290,9 @@ function signOut() {
 }
 
 function populateLists() {
+
+    secretDiscret = prompt("Please enter your unique key", "Key");
+
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             var uid = user.uid;
@@ -319,6 +304,7 @@ function populateLists() {
                 }
                 dataSnapShot.forEach(function(child) {
                     password = child.child("password").val();
+                    password = decryptAES256(secretDiscret, password);
                     user = child.child("notes").val();
                     let newElement = document.createElement("div");
                     newElement.innerText = password + " - " + user;
@@ -327,6 +313,7 @@ function populateLists() {
             });
         } else {
             console.log("user is not connected")
+                //signOut();
         }
     });
 }
@@ -334,8 +321,7 @@ function populateLists() {
 function addToFirebase() {
     let notes = document.getElementById("user").value;
     let pass = document.getElementById("password").value;
-    if (notes == '' || pass == '')
-        return;
+    pass = encryptAES256(secretDiscret, pass);
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             var uid = user.uid;
@@ -345,5 +331,24 @@ function addToFirebase() {
             });
         }
     })
+}
 
+function encryptAES256(secretKey, toEncrypt) {
+    var encrypted = CryptoJS.AES.encrypt(toEncrypt, secretKey);
+    return encrypted.toString();
+}
+
+function decryptAES256(secretKey, toDecrypt) {
+    var decrypted = CryptoJS.AES.decrypt(toDecrypt, secretKey);
+    return decrypted.toString(CryptoJS.enc.Utf8);
+}
+
+function genPassword2() {
+    var password = "";
+    var chars = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()";
+    for (var i = 0; i < 31; i++) {
+        var randomNumber = Math.floor(Math.random() * chars.length);
+        password += chars.substring(randomNumber, randomNumber + 1);
+    }
+    return password;
 }
