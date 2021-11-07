@@ -297,18 +297,64 @@ function populateLists() {
         if (user) {
             var uid = user.uid;
             let passwordList = document.getElementById("passwordList");
-            var passwordsRef = firebase.database().ref().child(uid).child("passwords");
-            passwordsRef.on('value', function(dataSnapShot) {
+            let symList = document.getElementById("symList");
+            let asymList = document.getElementById("asymList");
+            var ref = firebase.database().ref().child(uid);
+            ref.on('value', function(dataSnapShot) {
                 while (passwordList.firstChild) {
                     passwordList.removeChild(passwordList.firstChild);
                 }
-                dataSnapShot.forEach(function(child) {
+                while (symList.firstChild) {
+                    symList.removeChild(symList.firstChild);
+                }
+                while (asymList.firstChild) {
+                    asymList.removeChild(asymList.firstChild);
+                }
+                dataSnapShot.child("passwords").forEach(function(child) {
                     password = child.child("password").val();
                     password = decryptAES256(secretDiscret, password);
                     user = child.child("notes").val();
                     let newElement = document.createElement("div");
-                    newElement.innerText = password + " - " + user;
+                    newElement.classList.add("card");
+                    let newUser = document.createElement("div");
+                    newUser.innerText = "N: " + user;
+                    let newPass = document.createElement("div");
+                    newPass.innerText = "P: " + password;
+                    newElement.appendChild(newUser);
+                    newElement.appendChild(newPass);
                     passwordList.appendChild(newElement);
+                });
+
+                dataSnapShot.child("sym").forEach(function(child) {
+                    password = child.child("key").val();
+                    user = child.child("notes").val();
+                    let newElement = document.createElement("div");
+                    newElement.classList.add("card");
+                    let newUser = document.createElement("div");
+                    newUser.innerText = "N: " + user;
+                    let newPass = document.createElement("div");
+                    newPass.innerText = "K: " + password;
+                    newElement.appendChild(newUser);
+                    newElement.appendChild(newPass);
+                    symList.appendChild(newElement);
+                });
+
+                dataSnapShot.child("asym").forEach(function(child) {
+                    password = child.child("key1").val();
+                    password2 = child.child("key2").val();
+                    user = child.child("notes").val();
+                    let newElement = document.createElement("div");
+                    newElement.classList.add("card");
+                    let newUser = document.createElement("div");
+                    newUser.innerText = "N: " + user;
+                    let newPass = document.createElement("div");
+                    newPass.innerText = "K: " + password;
+                    let newPass2 = document.createElement("div");
+                    newPass2.innerText = "K: " + password;
+                    newElement.appendChild(newUser);
+                    newElement.appendChild(newPass);
+                    newElement.appendChild(newPass2);
+                    asymList.appendChild(newElement);
                 });
             });
         } else {

@@ -43,9 +43,9 @@
                         <br>
                         <input type="text" name="" placeholder="Create password" id="password" readonly>
                         <br> <br>
-                        <div id="button" class="btn btn-secondary" onclick="genPassword()">Generate</div>
-                        <div id="button" class="btn btn-success" onclick="copyPassword()">Copy</div>
-                        <div id="button" class="btn btn-success" onclick="addToFirebase()">Add to database</div>
+                        <div type="button" class="btn btn-info" onclick="genPassword()">Generate</div>
+                        <div type="button" class="btn btn-success" onclick="copyPassword()">Copy</div>
+                        <div type="button" id ="addButton" class="btn btn-secondary" onclick="addToFirebase()">Add to database</div>
                     </div>
 
 
@@ -73,6 +73,9 @@
                                 password += chars.substring(randomNumber, randomNumber + 1);
                             }
                             document.getElementById("password").value = password;
+                            var addButton = document.getElementById("addButton");
+                            addButton.classList.remove("btn-secondary");
+                            addButton.classList.add("btn-success");
                         }
 
                         function copyPassword() {
@@ -90,7 +93,8 @@
             <div class="card">Symmetric keys<br><br>
                 <button type="button" class="btn btn-info" id="myBtn2" style="white-space: normal;">Generate new key</button>
             </div>
-            <div>TODO:: POPULATE THIS LIST</div>
+            <div id="symList">
+            </div>
             <div id="myModal2" tabindex="-1" role="dialog" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
@@ -101,10 +105,11 @@
 
         <div class="column">
             <div class="card">Asymmetric keys<br><br>
-                <button type="button" tabindex="-1" role="dialog" class="btn btn-info" style="white-space: normal;" id="myBtn3">Generate new key pair
+                <button type="button" tabindex="-1" role="dialog" class="btn btn-info" style="white-space: normal;" id="myBtn3">Generate key pair
         </button>
             </div>
-            <div>TODO:: POPULATE THIS LIST</div>
+            <div id="asymList">
+            </div>
             <div id="myModal3" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
