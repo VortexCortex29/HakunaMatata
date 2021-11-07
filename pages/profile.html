@@ -2,29 +2,43 @@
 <html>
 
 <head>
-  <title>Home Page</title>
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" </head>
+<title>Page Title</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body onload="populateLists()">
 
-<body>
-
-  <div class="row">
-    <div class="column">
-      <div class="card">Passwords<br><br>
-        <button type="button" class="btn btn-info" id="myBtn1" style="white-space: normal;">Add password</button>
-      </div>
-      <div id="myModal1" tabindex="-1" role="dialog" class=" modal">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <div class="box ">
-            <h2>Password Generator</h2>
-            <br>
-            <div>
-              <input type="text" name="" placeholder="User" id="user">
-            </div>
-            <br>
-            <div>
-              <input type="number" name="" placeholder="Password length" id="length">
+    <div class="row">
+        <div class="column">
+          <div class="card">Passwords<br><br>
+            <button id="myBtn1">Add password</button>
+          </div>
+          <div id="passwordList">
+          </div>
+          <div id="myModal1" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <div class="box">
+                <h2>Password Generator</h2>
+                <div>
+                    <input type="text" name = "" placeholder="User" id="user">
+                </div>
+                <div>
+                    <input type="number" name="" placeholder="Password length" id="length">
+                </div>
+                <div>
+                    Capital Letters: <input type="checkbox" id="capitalLetters">
+                </div>
+                <div>
+                    Numbers: <input type="checkbox" id="numbers">
+                </div>  
+                <div>
+                    Special Characters: <input type="checkbox" id="specialCharacters">
+                </div>
+                <input type="text" name="" placeholder="Create password" id="password" readonly>
+                <div id="button" class="btn1"onclick="genPassword()">Generate</div>
+                <div  id="button" class="btn2" onclick="copyPassword()">Copy</div>
+                <div  id="button" class="btn2" onclick="addToFirebase()">Add to database</div>
+                
             </div>
             <br>
             <div>
@@ -81,28 +95,30 @@
       </div>
     </div>
 
-    <div class="column">
-      <div class="card">Symmetric keys<br><br>
-        <button type="button" class="btn btn-info" id="myBtn2" style="white-space: normal;">Generate new key</button>
-      </div>
-      <div id="myModal2" tabindex="-1" role="dialog" class="modal">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <p>key generator go brr</p>
+        <div class="column">
+          <div class="card">Symmetric keys<br><br>
+            <button id="myBtn2">Generate new key</button>
+          </div>
+          <div>TODO:: POPULATE THIS LIST</div>
+          <div id="myModal2" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <p>key generator go brr</p>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-
-    <div class="column">
-      <div class="card">Asymmetric keys<br><br>
-        <button type="button" tabindex="-1" role="dialog" class="btn btn-info" style="white-space: normal;"
-          id="myBtn3">Generate new key pair
-        </button>
-      </div>
-      <div id="myModal3" class="modal">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <p>key generator go brr tokyo drift</p>
+        
+        <div class="column">
+          <div class="card">Asymmetric keys<br><br>
+            <button id="myBtn3">Generate new key pair</button>
+          </div>
+          <div>TODO:: POPULATE THIS LIST</div>
+          <div id="myModal3" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <p>key generator go brr tokyo drift</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -147,6 +163,76 @@
       }
     }
   </script>
+
+<!-- Firebase -->
+
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase.js"></script>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+ https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-analytics.js"></script>
+<!-- Add Firebase products that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-auth.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-database.js"></script>
+
+
+<script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyC4w0k_OGB6elO8LaRHhvh1vN_Pw0chTB4",
+        authDomain: "hackunamatata-502e6.firebaseapp.com",
+        projectId: "hackunamatata-502e6",
+        databaseURL: "https://hackunamatata-502e6-default-rtdb.europe-west1.firebasedatabase.app",
+        storageBucket: "hackunamatata-502e6.appspot.com",
+        messagingSenderId: "397200510002",
+        appId: "1:397200510002:web:63e279b7d2e5f6712f802b",
+        measurementId: "G-YF44RRMLCM"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+</script>
+
+<!-- Custom JavaScript -->
+<script src="../js/app.js"></script>
+
+<!-- Firebase -->
+
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase.js"></script>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+ https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-analytics.js"></script>
+<!-- Add Firebase products that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-auth.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-database.js"></script>
+
+
+<script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyC4w0k_OGB6elO8LaRHhvh1vN_Pw0chTB4",
+        authDomain: "hackunamatata-502e6.firebaseapp.com",
+        projectId: "hackunamatata-502e6",
+        databaseURL: "https://hackunamatata-502e6-default-rtdb.europe-west1.firebasedatabase.app",
+        storageBucket: "hackunamatata-502e6.appspot.com",
+        messagingSenderId: "397200510002",
+        appId: "1:397200510002:web:63e279b7d2e5f6712f802b",
+        measurementId: "G-YF44RRMLCM"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+</script>
+
+<!-- Custom JavaScript -->
+<script src="../js/app.js"></script>
 
 </body>
 
