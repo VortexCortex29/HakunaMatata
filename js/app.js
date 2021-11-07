@@ -334,6 +334,8 @@ function populateLists() {
 function addToFirebase() {
     let notes = document.getElementById("user").value;
     let pass = document.getElementById("password").value;
+    if (notes == '' || pass == '')
+        return;
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
             var uid = user.uid;
