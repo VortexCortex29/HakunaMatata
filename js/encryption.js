@@ -4,6 +4,6 @@ function encryptAES256(secretKey, toEncrypt) {
 }
 
 function decryptAES256(secretKey, toDecrypt) {
-    var encrypted = CryptoJS.AES.decrypt(toDecrypt, secretKey);
-    return encrypted;
+    var decrypted = CryptoJS.AES.decrypt(toDecrypt, secretKey);
+    return decrypted;
 }
