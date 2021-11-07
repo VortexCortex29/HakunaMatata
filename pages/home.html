@@ -98,7 +98,32 @@
             <div id="myModal2" tabindex="-1" role="dialog" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
-                    <p>key generator go brr</p>
+                    <div class = "box">
+                        <h2>Symmetric keys generator</h2><br>
+                        <div id="button" class="btn btn-success" onclick="genAES()">Generate AES key</div>
+                        <div id="button" class="btn btn-success" onclick="gen3DES()">Generate 3DES key</div><br><br>
+                        <input type="text" placeholder="Your key will be generated here" id="key" readonly><br><br>
+                        <div id="button" class="btn btn-success" onclick="copyKey()">Copy</div>
+                        <div id="button" class="btn btn-success">Add to database</div>
+                      </div>
+
+                      <script>
+                        function genAES() {
+                          var key = genKeyAES();
+                          document.getElementById("key").value = key;
+                        }
+                        function gen3DES() {
+                          var key = genKey3DES();
+                          document.getElementById("key").value = key;
+                        }
+                        function copyKey() {
+                                  var copyText = document.getElementById("key");
+                                  copyText.select();
+                                  copyText.setSelectionRange(0, 999);
+                                  document.execCommand("copy");
+                              }
+                      </script>
+
                 </div>
             </div>
         </div>
@@ -113,7 +138,36 @@
             <div id="myModal3" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
-                    <p>key generator go brr tokyo drift</p>
+                    <div class = "box">
+                        <h2>Asymmetric keys generator</h2><br>
+                        <div id="button" class="btn btn-success" onclick="genRSA()">Generate RSA key</div><br><br>
+                        <input type="text" name="" placeholder="Your public key will be generated here" id="publicKey" readonly><br><br>
+                        <input type="text" name="" placeholder="Your private key will be generated here" id="privateKey" readonly><br><br>
+                        <div id="button" class="btn btn-success" onclick="copyPublicKey()">Copy public key</div>
+                        <div id="button" class="btn btn-success" onclick="copyPrivateKey()">Copy private key</div><br><br>
+                        <div id="button" class="btn btn-success">Add to database</div>
+                      </div>
+
+                      <script>
+                        function genRSA() {
+                          var key = genRSAKey();
+                          document.getElementById("publicKey").value = key;
+                          document.getElementById("privateKey").value = key;
+                        }
+                        function copyPublicKey() {
+                                  var copyText = document.getElementById("publicKey");
+                                  copyText.select();
+                                  copyText.setSelectionRange(0, 999);
+                                  document.execCommand("copy");
+                              }
+                        function copyPrivateKey() {
+                                  var copyText = document.getElementById("privateKey");
+                                  copyText.select();
+                                  copyText.setSelectionRange(0, 999);
+                                  document.execCommand("copy");
+                              }
+                      </script>
+
                 </div>
             </div>
         </div>

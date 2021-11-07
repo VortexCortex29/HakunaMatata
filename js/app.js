@@ -171,7 +171,7 @@ function signIn() {
                 title: 'Succesfully signed in',
             }).then((value) => {
                 setTimeout(function() {
-                    window.location.replace("./pages/profile.html");
+                    window.location.replace("./pages/home.html");
                 }, 1000)
             });
         }).catch((error) => {
