@@ -205,16 +205,16 @@ firebase.auth().onAuthStateChanged((user) => {
             uid = user.uid;
         }
         let firebaseRefKey = firebase.database().ref().child(uid);
-        firebaseRefKey.on('value', (dataSnapShot) => {
-            document.getElementById("userPfFullName").innerHTML = dataSnapShot.val().userFullName;
-            document.getElementById("userPfSurname").innerHTML = dataSnapShot.val().userSurname;
-            // userEmail = dataSnapShot.val().userEmail;
-            // userPassword = dataSnapShot.val().userPassword;
-            document.getElementById("userPfFb").setAttribute('href', dataSnapShot.val().userFb);
-            document.getElementById("userPfTw").setAttribute('href', dataSnapShot.val().userTw);
-            document.getElementById("userPfGp").setAttribute('href', dataSnapShot.val().userGp);
-            document.getElementById("userPfBio").innerHTML = dataSnapShot.val().userBio;
-        })
+        // firebaseRefKey.on('value', (dataSnapShot) => {
+        //     document.getElementById("userPfFullName").innerHTML = dataSnapShot.val().userFullName;
+        //     document.getElementById("userPfSurname").innerHTML = dataSnapShot.val().userSurname;
+        //     // userEmail = dataSnapShot.val().userEmail;
+        //     // userPassword = dataSnapShot.val().userPassword;
+        //     document.getElementById("userPfFb").setAttribute('href', dataSnapShot.val().userFb);
+        //     document.getElementById("userPfTw").setAttribute('href', dataSnapShot.val().userTw);
+        //     document.getElementById("userPfGp").setAttribute('href', dataSnapShot.val().userGp);
+        //     document.getElementById("userPfBio").innerHTML = dataSnapShot.val().userBio;
+        // })
     } else {
         //   No user is signed in.
     }
@@ -313,11 +313,11 @@ function populateLists() {
             var uid = user.uid;
             let passwordList = document.getElementById("passwordList");
             var passwordsRef = firebase.database().ref().child(uid).child("passwords");
-            passwordsRef.on('value', function(dataSnapShot){
-                while(passwordList.firstChild) {
+            passwordsRef.on('value', function(dataSnapShot) {
+                while (passwordList.firstChild) {
                     passwordList.removeChild(passwordList.firstChild);
                 }
-                dataSnapShot.forEach(function(child){
+                dataSnapShot.forEach(function(child) {
                     password = child.child("password").val();
                     user = child.child("notes").val();
                     let newElement = document.createElement("div");
@@ -328,7 +328,7 @@ function populateLists() {
         } else {
             console.log("user is not connected")
         }
-      });
+    });
 }
 
 function addToFirebase() {
@@ -340,8 +340,8 @@ function addToFirebase() {
         if (user) {
             var uid = user.uid;
             firebase.database().ref().child(uid).child("passwords").push().set({
-                notes : notes,
-                password : pass
+                notes: notes,
+                password: pass
             });
         }
     })
